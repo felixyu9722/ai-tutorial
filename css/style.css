@@ -1,0 +1,219 @@
+/* ==========================================================================
+   AI 零基础视觉与社媒创作手把手指南 - 核心样式表 (style.css)
+   特性：温暖奶油色系、支持一键切换「深色护眼模式」与「大字长辈友好模式」、极致手机端适配
+   ========================================================================== */
+
+:root {
+    --bg-main: #FDFBF7;
+    --bg-sub: #F5F0E6;
+    --bg-card: #FFFFFF;
+    --text-main: #1C1917;
+    --text-secondary: #57534E;
+    --text-muted: #78716C;
+    --border-color: #E7E0D6;
+    --brand-primary: #059669;
+    --brand-hover: #047857;
+    --brand-light: #ECFDF5;
+    --amber-accent: #D97706;
+    --amber-light: #FFFBEB;
+    --font-scale: 1;
+}
+
+/* 深色护眼模式覆盖 */
+html[data-theme="dark"] {
+    --bg-main: #141210;
+    --bg-sub: #1F1C19;
+    --bg-card: #262320;
+    --text-main: #F5F5F4;
+    --text-secondary: #D6D3D1;
+    --text-muted: #A8A29E;
+    --border-color: #3D3834;
+    --brand-primary: #10B981;
+    --brand-hover: #34D399;
+    --brand-light: #064E3B;
+    --amber-accent: #F59E0B;
+    --amber-light: #451A03;
+    color-scheme: dark;
+}
+
+/* 大字舒适模式（一键放大全站字号，对长辈与手机阅读极度友好） */
+html[data-font="large"] {
+    font-size: 18.5px;
+}
+
+@media (max-width: 640px) {
+    html[data-font="large"] {
+        font-size: 17.5px;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 76px;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 3rem;
+    }
+}
+
+/* 隐藏滚动条但保留滑动功能 */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* 卡片与通用表面深色适配 */
+.theme-card {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-main);
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-subcard {
+    background-color: var(--bg-sub);
+    border-color: var(--border-color);
+}
+
+html[data-theme="dark"] .bg-white {
+    background-color: var(--bg-card) !important;
+}
+html[data-theme="dark"] .bg-cream-50,
+html[data-theme="dark"] .bg-cream-100,
+html[data-theme="dark"] .bg-stone-50 {
+    background-color: var(--bg-sub) !important;
+}
+html[data-theme="dark"] .text-stone-900,
+html[data-theme="dark"] .text-stone-800 {
+    color: var(--text-main) !important;
+}
+html[data-theme="dark"] .text-stone-700,
+html[data-theme="dark"] .text-stone-600 {
+    color: var(--text-secondary) !important;
+}
+html[data-theme="dark"] .text-stone-500 {
+    color: var(--text-muted) !important;
+}
+html[data-theme="dark"] .border-stone-200,
+html[data-theme="dark"] .border-stone-200\/80,
+html[data-theme="dark"] .border-stone-300,
+html[data-theme="dark"] .border-stone-100 {
+    border-color: var(--border-color) !important;
+}
+html[data-theme="dark"] header.sticky {
+    background-color: rgba(20, 18, 16, 0.92) !important;
+}
+html[data-theme="dark"] nav.mobile-bottom-nav {
+    background-color: rgba(31, 28, 25, 0.96) !important;
+}
+
+/* 徽章颜色样式 */
+.badge-emerald {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+.badge-amber {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+.badge-sky {
+    background-color: #E0F2FE;
+    color: #075985;
+}
+.badge-purple {
+    background-color: #F3E8FF;
+    color: #6B21A8;
+}
+
+html[data-theme="dark"] .badge-emerald {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #6EE7B7;
+}
+html[data-theme="dark"] .badge-amber {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #FCD34D;
+}
+html[data-theme="dark"] .badge-sky {
+    background-color: rgba(14, 165, 233, 0.2);
+    color: #7DD3FC;
+}
+html[data-theme="dark"] .badge-purple {
+    background-color: rgba(168, 85, 247, 0.2);
+    color: #D8B4FE;
+}
+
+/* 4种视觉风格横幅背景 */
+.style-banner-cinematic {
+    background: linear-gradient(135deg, #451A03 0%, #292524 55%, #78350F 100%);
+}
+.style-banner-watercolor {
+    background: linear-gradient(135deg, #065F46 0%, #0F766E 55%, #B45309 100%);
+}
+.style-banner-minimal {
+    background: linear-gradient(135deg, #44403C 0%, #57534E 55%, #78350F 100%);
+}
+.style-banner-3d {
+    background: linear-gradient(135deg, #C2410C 0%, #D97706 50%, #BE123C 100%);
+}
+
+/* 6要素公式积木块 */
+.formula-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: linear-gradient(135deg, #059669, #047857);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.4rem 0.85rem;
+    border-radius: 0.75rem;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
+}
+
+/* 呼吸脉冲按钮动画 */
+@keyframes pulseRing {
+    0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45); }
+    70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+.pulse-btn {
+    animation: pulseRing 2.5s infinite;
+}
+
+/* 内联高亮文字 */
+.highlight-inline {
+    background-color: #D1FAE5;
+    color: #064E3B;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+}
+
+html[data-theme="dark"] .highlight-inline {
+    background-color: rgba(16, 185, 129, 0.25);
+    color: #A7F3D0;
+}
+
+/* 手机底部安全区适配 */
+.mobile-bottom-nav {
+    padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0px));
+}

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>零基础 AI 生图与生视频手把手指南 | 人人可用的互动教学</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F9F5EB',
+                            200: '#F1E9D6',
+                        },
+                        brand: {
+                            50: '#ECFDF5',
+                            100: '#D1FAE5',
+                            400: '#34D399',
+                            500: '#10B981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065F46',
+                            900: '#064E3B',
+                        },
+                        amber: {
+                            50: '#FFFBEB',
+                            100: '#FEF3C7',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                            700: '#B45309',
+                            800: '#92400E',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -5px rgba(20, 40, 30, 0.07), 0 4px 12px -2px rgba(20, 40, 30, 0.04)',
+                        'card': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="antialiased selection:bg-brand-100 selection:text-brand-900">
+
+    <!-- ================= 顶部悬浮导航栏（含大字模式 & 深色切换） ================= -->
+    <header class="sticky top-0 z-40 bg-cream-50/90 backdrop-blur-md border-b border-stone-200/80 transition-all">
+        <div class="max-w-5xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
+            <!-- Logo & Back to Home -->
+            <div class="flex items-center gap-2 shrink-0">
+                <a href="index.html" title="返回 AI 学习大厅首页" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-stone-200/70 hover:bg-brand-100 text-stone-800 hover:text-brand-800 text-xs font-bold transition active:scale-95">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    <span>返回首页</span>
+                </a>
+                <a href="#" class="flex items-center gap-2 shrink-0">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 hidden sm:flex items-center justify-center text-white font-bold shadow-sm">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <span class="font-black text-stone-900 text-xs sm:text-base tracking-tight block leading-none">第1课：AI 生图与短视频</span>
+                        <span class="text-[11px] text-brand-700 font-semibold hidden sm:inline-block mt-0.5">零基础 · 说大白话就能用</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center gap-1 text-xs sm:text-sm font-bold text-stone-600">
+                <a href="#tools" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-brand-700 transition">1. 工具导航</a>
+                <a href="#secret" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-brand-700 transition">2. 核心秘诀</a>
+                <a href="#builder" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-brand-700 transition">3. 提示词组装器</a>
+                <a href="#practice" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-brand-700 transition">4. 实战练习</a>
+                <a href="#dictionary" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-brand-700 transition">5. 质感词典</a>
+                <a href="#faq" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-brand-700 transition">6. 问答打卡</a>
+            </nav>
+
+            <!-- Accessibility & Action Controls -->
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                <button onclick="toggleFontSize()" id="btn-font-size" title="切换大字舒适模式（适合长辈与手机阅读）" class="px-2.5 py-1.5 rounded-xl border border-stone-300 bg-white text-stone-800 hover:border-brand-500 text-xs font-bold transition active:scale-95">
+                    A+ 大字
+                </button>
+                <button onclick="toggleTheme()" id="btn-theme-toggle" title="切换深浅色护眼模式" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-stone-300 bg-white flex items-center justify-center text-sm transition active:scale-95">
+                    🌙
+                </button>
+                <button onclick="scrollToSection('builder')" class="text-xs bg-brand-600 hover:bg-brand-700 text-white font-bold px-3 sm:px-3.5 py-2 rounded-xl shadow-sm flex items-center gap-1 transition active:scale-95">
+                    <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+                    <span class="hidden xs:inline">直接试玩</span>
+                    <span class="xs:hidden">试玩</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= 手机端底部大拇指导航栏 ================= -->
+    <nav class="md:hidden mobile-bottom-nav fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-stone-200 px-2 pt-1.5 flex justify-around items-center shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+        <a href="#tools" class="flex flex-col items-center py-1 px-2 text-stone-600 hover:text-brand-600 active:scale-95 transition">
+            <i data-lucide="compass" class="w-5 h-5 mb-0.5"></i>
+            <span class="text-[11px] font-bold">1.选工具</span>
+        </a>
+        <a href="#secret" class="flex flex-col items-center py-1 px-2 text-stone-600 hover:text-brand-600 active:scale-95 transition">
+            <i data-lucide="sparkles" class="w-5 h-5 mb-0.5"></i>
+            <span class="text-[11px] font-bold">2.三步法</span>
+        </a>
+        <a href="#builder" class="flex flex-col items-center py-1 px-3.5 -mt-4 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-2xl shadow-md active:scale-95 transition">
+            <i data-lucide="wand-2" class="w-5 h-5 mb-0.5 mt-1"></i>
+            <span class="text-[11px] font-black mb-0.5">组装咒语</span>
+        </a>
+        <a href="#practice" class="flex flex-col items-center py-1 px-2 text-stone-600 hover:text-brand-600 active:scale-95 transition">
+            <i data-lucide="flame" class="w-5 h-5 mb-0.5"></i>
+            <span class="text-[11px] font-bold">4.练手场</span>
+        </a>
+        <a href="#faq" class="flex flex-col items-center py-1 px-2 text-stone-600 hover:text-brand-600 active:scale-95 transition">
+            <i data-lucide="check-square" class="w-5 h-5 mb-0.5"></i>
+            <span class="text-[11px] font-bold">5.打卡区</span>
+        </a>
+    </nav>
+
+    <!-- ================= 复制成功 + 一键跳往各大 AI 悬浮弹窗 ================= -->
+    <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 -translate-y-3 transition-all duration-300 w-[94%] max-w-md">
+        <div class="bg-stone-900/95 backdrop-blur-md text-white p-4 rounded-2xl shadow-2xl border border-stone-700 space-y-3">
+            <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="font-black text-white text-xs sm:text-sm" id="toast-title">提示词已复制成功！</p>
+                        <p class="text-stone-300 text-[11px] sm:text-xs mt-0.5" id="toast-desc">点击下方快捷按钮，直接去粘贴发送吧 👇</p>
+                    </div>
+                </div>
+                <button onclick="hideToast()" class="text-stone-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <!-- 快捷传送门按钮（解决新手复制后不知道去哪里的痛点） -->
+            <div class="grid grid-cols-4 gap-1.5 pt-2 border-t border-stone-700/80 text-center">
+                <a href="https://gemini.google.com" target="_blank" rel="noopener" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg transition">
+                    去 Gemini ↗
+                </a>
+                <a href="https://chatgpt.com" target="_blank" rel="noopener" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg transition">
+                    去 ChatGPT ↗
+                </a>
+                <a href="https://claude.ai" target="_blank" rel="noopener" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg transition">
+                    去 Claude ↗
+                </a>
+                <a href="https://chat.qwen.ai" target="_blank" rel="noopener" class="bg-purple-600 hover:bg-purple-500 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg transition">
+                    去 Qwen ↗
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 主体内容区 ================= -->
+    <main class="max-w-5xl mx-auto px-4 pt-5 sm:pt-8 space-y-12 sm:space-y-16">
+
+        <!-- ================= HERO SECTION（全员通用零基础引导区） ================= -->
+        <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-stone-900 via-brand-900 to-stone-900 text-white p-6 sm:p-10 md:p-12 shadow-soft">
+            <div class="absolute -top-24 -right-24 w-72 h-72 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-amber-300 text-xs sm:text-sm font-bold mb-4">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>写给所有零基础朋友 · 不用懂英文 · 不用背代码</span>
+                </div>
+
+                <h1 class="text-2xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4">
+                    用 AI 做图片和短视频，<br>
+                    其实只要会说<span class="text-amber-400 underline decoration-amber-400/40 decoration-wavy underline-offset-8">“日常大白话”</span>！
+                </h1>
+
+                <p class="text-stone-200 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
+                    💡 <strong class="text-amber-300">一句话核心原理：</strong>生图 AI 看不懂“模糊的想法”，但看得懂“清楚的画面说明书”。而文字 AI（如 Gemini / ChatGPT / Claude / Qwen）最擅长的，就是<strong class="text-white">把你的一句日常大白话，自动翻译成大师级的生图指令！</strong>
+                </p>
+
+                <!-- 3-Step Quick Overview Pills -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+                    <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 flex items-start gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-amber-400 text-stone-950 font-black text-sm flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <div>
+                            <h3 class="font-bold text-sm text-white">说一句日常大白话</h3>
+                            <p class="text-xs text-stone-300 mt-0.5">“周末午后在咖啡馆看书，阳光很温暖”</p>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 flex items-start gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-brand-400 text-stone-950 font-black text-sm flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <div>
+                            <h3 class="font-bold text-sm text-white">套用“万能扩写指令”</h3>
+                            <p class="text-xs text-stone-300 mt-0.5">让文字 AI 给你 4 种不同视觉风格选择</p>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 flex items-start gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-sky-400 text-stone-950 font-black text-sm flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <div>
+                            <h3 class="font-bold text-sm text-white">挑最爱的生图 / 微调</h3>
+                            <p class="text-xs text-stone-300 mt-0.5">一键出大片，再加句运镜词变成短视频</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MODULE 1: AI 工具导航台（含 Claude AI + Qwen AI 双按钮） ================= -->
+        <section id="tools" class="scroll-mt-20">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-5 gap-2">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-700 bg-brand-50 px-3 py-1 rounded-full border border-brand-200">PART 1 · 新手工具导航台</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-stone-900 mt-2">30秒看懂：那么多 AI 我该打开哪一个？</h2>
+                </div>
+                <p class="text-xs sm:text-sm text-stone-500">别被几十个名字搞晕，把它们当成你的<strong class="text-stone-800">“3人创作小团队”</strong>：</p>
+            </div>
+
+            <!-- Role Filter Tabs -->
+            <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-5 bg-stone-200/70 p-1.5 rounded-2xl">
+                <button onclick="switchToolTab('brain')" id="tab-tool-brain" class="tool-tab-btn py-3 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-white text-brand-800 shadow-sm">
+                    <span class="text-lg sm:text-xl">🧠</span>
+                    <span>1. 文字军师 <span class="hidden md:inline font-normal text-xs opacity-75">(想点子/写提示词)</span></span>
+                </button>
+                <button onclick="switchToolTab('painter')" id="tab-tool-painter" class="tool-tab-btn py-3 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-600 hover:text-stone-900">
+                    <span class="text-lg sm:text-xl">🎨</span>
+                    <span>2. 视觉画师 <span class="hidden md:inline font-normal text-xs opacity-75">(把字变成精美图片)</span></span>
+                </button>
+                <button onclick="switchToolTab('director')" id="tab-tool-director" class="tool-tab-btn py-3 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-600 hover:text-stone-900">
+                    <span class="text-lg sm:text-xl">🎬</span>
+                    <span>3. 动态导演 <span class="hidden md:inline font-normal text-xs opacity-75">(让照片动起来变视频)</span></span>
+                </button>
+            </div>
+
+            <!-- Tool Cards Container (Rendered via JS) -->
+            <div id="tool-content-container" class="bg-white rounded-3xl p-5 sm:p-7 border border-stone-200/80 shadow-card"></div>
+        </section>
+
+        <!-- ================= MODULE 2: 核心秘诀拆解（已移除 WhatsApp 框，改用直观三步卡 + 6要素积木） ================= -->
+        <section id="secret" class="scroll-mt-20 space-y-6">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">PART 2 · 核心秘诀与公式拆解</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-stone-900 mt-2">手把手演示：“一句大白话”如何变成 4 种大片？</h2>
+                <p class="text-sm sm:text-base text-stone-600 mt-1">
+                    以经典的<strong>「周末在咖啡馆看书」</strong>为例，我们把它拆解成 <strong>3 个肉眼可见的步骤</strong>。你可以直接点击复制去试试！
+                </p>
+            </div>
+
+            <!-- 6大要素黄金公式条（融合自参考文件1） -->
+            <div class="bg-white rounded-3xl p-5 sm:p-6 border border-stone-200 shadow-card">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-black text-stone-900 flex items-center gap-2">
+                            <span>🧩 认识“好提示词”的 6 大黄金积木</span>
+                            <span class="text-xs font-normal text-stone-500">（不用背！让文字 AI 帮你补齐这 6 项）</span>
+                        </h3>
+                    </div>
+                    <!-- 6要素胶囊条 -->
+                    <div class="flex flex-wrap items-center gap-1.5 text-xs">
+                        <span class="formula-pill">主体</span><span class="text-stone-400 font-bold">+</span>
+                        <span class="formula-pill">场景</span><span class="text-stone-400 font-bold">+</span>
+                        <span class="formula-pill">光线</span><span class="text-stone-400 font-bold">+</span>
+                        <span class="formula-pill">风格</span><span class="text-stone-400 font-bold">+</span>
+                        <span class="formula-pill">构图</span><span class="text-stone-400 font-bold">+</span>
+                        <span class="formula-pill">情绪/比例</span>
+                    </div>
+                </div>
+
+                <!-- 好坏对比直观展示 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div class="p-3.5 rounded-2xl bg-red-50/70 border border-red-200 text-xs sm:text-sm">
+                        <span class="font-black text-red-700 block mb-1">❌ 太简单（AI 容易乱画、满满塑料感）：</span>
+                        <p class="text-stone-700">“画一个喝咖啡看书的画面”</p>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-xs sm:text-sm">
+                        <span class="font-black text-emerald-800 block mb-1">✅ 让文字 AI 扩写后（细节饱满、一次出大片）：</span>
+                        <p class="text-stone-800">“复古木质咖啡馆窗边，热拿铁冒着热气与翻开的书，<strong>午后温暖斜阳洒在桌面</strong>，<strong>电影质感</strong>，<strong>浅景深虚化</strong>，<strong>放松治愈氛围，竖版 9:16</strong>”</p>
+                    </div>
+                </div>
+
+                <!-- 可折叠查看 6 要素详细拆解表 -->
+                <details class="group pt-2 border-t border-stone-100">
+                    <summary class="cursor-pointer text-xs sm:text-sm font-bold text-brand-700 hover:text-brand-800 flex items-center gap-1.5 select-none">
+                        <i data-lucide="table" class="w-4 h-4"></i>
+                        <span>点击展开查看：6 大要素具体包含什么？（附例子表）</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="mt-3 overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-cream-100 border-b border-stone-200 text-xs font-black text-stone-800">
+                                    <th class="py-2 px-3">要素</th>
+                                    <th class="py-2 px-3">回答的问题</th>
+                                    <th class="py-2 px-3">常用例子</th>
+                                </tr>
+                            </thead>
+                            <tbody id="formula-table-body"></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <!-- 左右双栏：左侧 3步直观实操卡（替代原WhatsApp框） + 右侧 4种风格预览 -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Left Column: 3-Step Visual Action Card (5 cols on lg) -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-brand-600/30 shadow-card space-y-4">
+                        <div class="flex items-center gap-2.5 border-b border-stone-200 pb-3">
+                            <div class="w-9 h-9 rounded-xl bg-brand-600 text-white font-black flex items-center justify-center text-sm shrink-0">
+                                3步
+                            </div>
+                            <div>
+                                <h3 class="font-black text-stone-900 text-base sm:text-lg">万能“大白话转大片”操作流</h3>
+                                <p class="text-xs text-stone-500">每次想画图，照着这 3 步做就对了</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 1 -->
+                        <div class="p-3.5 rounded-2xl bg-cream-50 border border-stone-200/90 space-y-1.5">
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-amber-500 text-white text-xs font-black flex items-center justify-center">1</span>
+                                <span class="font-bold text-stone-900 text-xs sm:text-sm">先想一句日常大白话</span>
+                            </div>
+                            <p class="text-xs text-stone-600 pl-7">
+                                不用管专业术语，像平时说话一样：<br>
+                                <span class="text-stone-900 font-medium">“周末午后在咖啡馆喝咖啡、看书，光线很温暖，很放松。”</span>
+                            </p>
+                        </div>
+
+                        <!-- Step 2: Copyable Universal Prompt -->
+                        <div class="p-4 rounded-2xl bg-emerald-50/70 border-2 border-brand-500/40 space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-brand-600 text-white text-xs font-black flex items-center justify-center">2</span>
+                                    <span class="font-black text-brand-900 text-xs sm:text-sm">套用“万能扩写指令”发给 AI</span>
+                                </div>
+                                <span class="text-[11px] font-bold bg-brand-600 text-white px-2 py-0.5 rounded-full">👇 直接复制</span>
+                            </div>
+
+                            <p id="coffee-raw-prompt" class="text-stone-800 text-xs sm:text-sm font-medium leading-relaxed bg-white p-3 rounded-xl border border-brand-200 select-all">我想做一个周末午后在咖啡馆喝咖啡、看书的画面，光线很温暖，感觉很放松。请根据这句话帮我写出专业的 AI 生图提示词（包含中英文对照），并提供 4 种截然不同的视觉风格选择（如：1.电影感写实摄影、2.治愈系水彩插画、3.现代极简海报、4.3D可爱盲盒风）。</p>
+
+                            <button onclick="copyText('coffee-raw-prompt', '已复制咖啡馆万能扩写指令！')" class="w-full py-2.5 px-4 bg-brand-600 hover:bg-brand-700 active:scale-98 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm transition">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                                <span>一键复制这段话（去发给 Gemini / ChatGPT）</span>
+                            </button>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="p-3.5 rounded-2xl bg-cream-50 border border-stone-200/90 space-y-1.5">
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-sky-600 text-white text-xs font-black flex items-center justify-center">3</span>
+                                <span class="font-bold text-stone-900 text-xs sm:text-sm">像点菜一样挑风格 & 微调</span>
+                            </div>
+                            <p class="text-xs text-stone-600 pl-7">
+                                AI 会立刻写出右侧那样的 <strong>4 种风格提示词</strong>！喜欢哪个就让它画哪个；不满意再追问一句“光线再暖一点”即可。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Beginner Tip Box -->
+                    <div class="bg-amber-50/90 border border-amber-200 rounded-2xl p-4">
+                        <div class="flex items-center gap-2 text-amber-900 font-bold text-xs sm:text-sm mb-1.5">
+                            <i data-lucide="lightbulb" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                            <span>为什么让 AI 提供“4种风格”百试百灵？</span>
+                        </div>
+                        <p class="text-xs text-amber-900/85 leading-relaxed">
+                            因为你自己写，最多只能想到“一杯咖啡、一本书”。但当你让 AI 提供 <strong>4 种不同风格选择</strong> 时，AI 会自动帮你把<strong>镜头焦段（85mm浅景深）、黄金时刻丁达尔光、构图留白与色调</strong>全部补齐！
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive 4 Styles Output Preview (7 cols on lg) -->
+                <div class="lg:col-span-7 bg-white rounded-3xl p-5 sm:p-7 border border-stone-200 shadow-card">
+                    <div class="mb-4">
+                        <span class="text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md">👇 点击下方 4 个按钮，体验文字 AI 给你的 4 种风格回复</span>
+                        <h3 class="text-lg sm:text-xl font-black text-stone-900 mt-1.5">同一句大白话，衍生出 4 种社媒大片质感</h3>
+                    </div>
+
+                    <!-- 4 Style Switcher Buttons -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
+                        <button onclick="selectCoffeeStyle(0)" id="style-btn-0" class="style-tab-btn p-2.5 rounded-xl border-2 text-left transition-all border-brand-600 bg-brand-50/70 shadow-sm">
+                            <div class="text-xs font-bold text-brand-800 flex items-center justify-between">
+                                <span>风格 A</span>
+                                <span class="text-base">📸</span>
+                            </div>
+                            <div class="font-bold text-stone-900 text-xs sm:text-sm mt-0.5">电影感写实</div>
+                        </button>
+                        <button onclick="selectCoffeeStyle(1)" id="style-btn-1" class="style-tab-btn p-2.5 rounded-xl border-2 text-left transition-all border-stone-200 hover:border-stone-300 bg-white">
+                            <div class="text-xs font-bold text-stone-500 flex items-center justify-between">
+                                <span>风格 B</span>
+                                <span class="text-base">🎨</span>
+                            </div>
+                            <div class="font-bold text-stone-900 text-xs sm:text-sm mt-0.5">治愈水彩插画</div>
+                        </button>
+                        <button onclick="selectCoffeeStyle(2)" id="style-btn-2" class="style-tab-btn p-2.5 rounded-xl border-2 text-left transition-all border-stone-200 hover:border-stone-300 bg-white">
+                            <div class="text-xs font-bold text-stone-500 flex items-center justify-between">
+                                <span>风格 C</span>
+                                <span class="text-base">✨</span>
+                            </div>
+                            <div class="font-bold text-stone-900 text-xs sm:text-sm mt-0.5">极简杂志留白</div>
+                        </button>
+                        <button onclick="selectCoffeeStyle(3)" id="style-btn-3" class="style-tab-btn p-2.5 rounded-xl border-2 text-left transition-all border-stone-200 hover:border-stone-300 bg-white">
+                            <div class="text-xs font-bold text-stone-500 flex items-center justify-between">
+                                <span>风格 D</span>
+                                <span class="text-base">🧸</span>
+                            </div>
+                            <div class="font-bold text-stone-900 text-xs sm:text-sm mt-0.5">3D 可爱盲盒</div>
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Style Showcase Card -->
+                    <div id="coffee-style-display" class="space-y-4"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MODULE 3: 双模式“互动提示词组装器” ================= -->
+        <section id="builder" class="scroll-mt-20">
+            <div class="bg-gradient-to-br from-emerald-950 via-brand-900 to-stone-900 rounded-3xl p-5 sm:p-8 md:p-10 text-white shadow-soft relative overflow-hidden">
+                <div class="relative z-10">
+                    <!-- Top Header & Mode Switcher -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-white/15 pb-5">
+                        <div>
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-400 text-stone-950 px-3 py-1 rounded-full">
+                                <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+                                <span>PART 3 · 懒人互动神器</span>
+                            </span>
+                            <h2 class="text-2xl sm:text-3xl font-black mt-2">互动式“提示词咒语组装器”</h2>
+                            <p class="text-stone-300 text-xs sm:text-sm mt-1">支持两种玩法：既能组装发给文字 AI 的【万能扩写指令】，也能用【6大积木】直接拼出成品提示词！</p>
+                        </div>
+
+                        <!-- 模式切换按钮 + 随机灵感 -->
+                        <div class="flex flex-wrap items-center gap-2 shrink-0">
+                            <button onclick="switchBuilderMode('expand')" id="builder-mode-expand" class="px-4 py-2 rounded-xl font-bold text-xs sm:text-sm bg-amber-400 text-stone-950 shadow-sm transition">
+                                🪄 模式A：万能扩写指令
+                            </button>
+                            <button onclick="switchBuilderMode('direct')" id="builder-mode-direct" class="px-4 py-2 rounded-xl font-bold text-xs sm:text-sm bg-white/10 text-white hover:bg-white/20 transition">
+                                🧩 模式B：6要素直接拼
+                            </button>
+                            <button onclick="randomizeBuilder()" title="随机换一个灵感" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-medium flex items-center gap-1.5 transition active:scale-95">
+                                <i data-lucide="shuffle" class="w-4 h-4 text-amber-300"></i>
+                                <span>随机灵感</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- 左侧控制面板：模式 A（万能扩写指令组装） -->
+                        <div id="panel-builder-expand" class="lg:col-span-7 space-y-5">
+                            <!-- Step 1: Scene -->
+                            <div>
+                                <label class="block text-xs sm:text-sm font-bold text-emerald-200 mb-2">
+                                    1️⃣ 第一步：你想做什么画面？（点击快捷灵感气泡，或在框里自己写大白话）
+                                </label>
+                                <div class="flex flex-wrap gap-1.5 mb-2.5">
+                                    <button onclick="setBuilderScene('周末午后在木质咖啡馆喝拿铁、翻看纸质书')" class="text-xs bg-white/10 hover:bg-amber-400 hover:text-stone-950 px-3 py-1.5 rounded-lg border border-white/15 transition">☕ 咖啡馆看书</button>
+                                    <button onclick="setBuilderScene('一碗刚煮好的南洋叻沙（或椰浆饭），汤面冒着热气，配料丰富诱人')" class="text-xs bg-white/10 hover:bg-amber-400 hover:text-stone-950 px-3 py-1.5 rounded-lg border border-white/15 transition">🍜 本地美食特写</button>
+                                    <button onclick="setBuilderScene('餐桌上摆着刚出炉的牛角包和热红茶，冒着热气')" class="text-xs bg-white/10 hover:bg-amber-400 hover:text-stone-950 px-3 py-1.5 rounded-lg border border-white/15 transition">🥐 烘焙早茶</button>
+                                    <button onclick="setBuilderScene('清晨阳光照进摆满鲜花和绿植的窗台，画面上方留白放早安文字')" class="text-xs bg-white/10 hover:bg-amber-400 hover:text-stone-950 px-3 py-1.5 rounded-lg border border-white/15 transition">🌿 早安鲜花留白</button>
+                                    <button onclick="setBuilderScene('精致的手工香薰蜡烛（或你的产品）摆在极简木桌上，周围有自然光影')" class="text-xs bg-white/10 hover:bg-amber-400 hover:text-stone-950 px-3 py-1.5 rounded-lg border border-white/15 transition">🛍️ 产品宣传图</button>
+                                    <button onclick="setBuilderScene('一个女生在海边日落时散步背影，微风吹起头发')" class="text-xs bg-white/10 hover:bg-amber-400 hover:text-stone-950 px-3 py-1.5 rounded-lg border border-white/15 transition">🌅 海边日落背影</button>
+                                </div>
+                                <input type="text" id="builder-scene-input" oninput="updateBuilderOutput()" value="周末午后在木质咖啡馆喝拿铁、翻看纸质书" placeholder="例如：一只橘猫趴在窗台晒太阳..." class="w-full px-4 py-3 rounded-xl bg-stone-950/70 border border-white/25 text-white placeholder-stone-400 text-sm focus:outline-none focus:border-amber-400 transition">
+                            </div>
+
+                            <!-- Step 2: Mood & Lighting -->
+                            <div>
+                                <label class="block text-xs sm:text-sm font-bold text-emerald-200 mb-2">
+                                    2️⃣ 第二步：你想要什么光线与氛围感？
+                                </label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="builder-mood-group">
+                                    <button onclick="setBuilderMood('光线很温暖柔和，感觉很放松治愈', this)" class="mood-btn bg-amber-400 text-stone-950 font-bold text-xs py-2.5 px-3 rounded-xl border border-amber-300 transition text-left">
+                                        ☀️ 温暖放松治愈
+                                    </button>
+                                    <button onclick="setBuilderMood('清晨阳光穿过窗户形成丁达尔光束，充满希望感', this)" class="mood-btn bg-white/10 text-white hover:bg-white/15 font-medium text-xs py-2.5 px-3 rounded-xl border border-white/15 transition text-left">
+                                        ✨ 清晨透亮阳光
+                                    </button>
+                                    <button onclick="setBuilderMood('电影级柔和暗调暖光，高级感拉满，安静沉思氛围', this)" class="mood-btn bg-white/10 text-white hover:bg-white/15 font-medium text-xs py-2.5 px-3 rounded-xl border border-white/15 transition text-left">
+                                        🎬 电影高级氛围
+                                    </button>
+                                    <button onclick="setBuilderMood('明亮清新的自然光，色彩通透干净，上方留白方便加标题文字', this)" class="mood-btn bg-white/10 text-white hover:bg-white/15 font-medium text-xs py-2.5 px-3 rounded-xl border border-white/15 transition text-left">
+                                        🍃 清新封面留白
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Goal -->
+                            <div>
+                                <label class="block text-xs sm:text-sm font-bold text-emerald-200 mb-2">
+                                    3️⃣ 第三步：你希望 AI 帮你输出什么？
+                                </label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="builder-goal-group">
+                                    <button onclick="setBuilderGoal('image', this)" class="goal-btn bg-brand-400 text-stone-950 font-bold text-xs py-2.5 px-3 rounded-xl border border-brand-300 transition text-left">
+                                        🖼️ 4种风格生图提示词
+                                    </button>
+                                    <button onclick="setBuilderGoal('video', this)" class="goal-btn bg-white/10 text-white hover:bg-white/15 font-medium text-xs py-2.5 px-3 rounded-xl border border-white/15 transition text-left">
+                                        🎬 生图 + 转短视频运镜指令
+                                    </button>
+                                    <button onclick="setBuilderGoal('social', this)" class="goal-btn bg-white/10 text-white hover:bg-white/15 font-medium text-xs py-2.5 px-3 rounded-xl border border-white/15 transition text-left">
+                                        📱 社媒文案 + 配图一条龙
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 左侧控制面板：模式 B（6要素积木下拉选择直接拼装，来自参考文件1） -->
+                        <div id="panel-builder-direct" class="lg:col-span-7 hidden space-y-4">
+                            <p class="text-xs sm:text-sm text-emerald-200 font-bold">
+                                🧩 像点菜一样选齐 6 大要素，系统直接帮你拼好一段完整提示词：
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs text-stone-300 mb-1">① 主体（画面里最主要画什么？）</label>
+                                    <input id="f_sub" oninput="updateDirectFormulaOutput()" value="一位短发女生在安静看书，旁边有一杯冒热气的拿铁" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-950/80 border border-white/20 text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-stone-300 mb-1">② 场景（在哪里？）</label>
+                                    <select id="f_sce" onchange="updateDirectFormulaOutput()" class="w-full px-3 py-2.5 rounded-xl bg-stone-950/80 border border-white/20 text-white">
+                                        <option>周末午后的木质咖啡馆靠窗位置</option>
+                                        <option>雨天的复古城市街角窗边</option>
+                                        <option>海边日落的金色沙滩</option>
+                                        <option>摆满绿植与鲜花的阳光阳台</option>
+                                        <option>现代极简的温馨家里客厅</option>
+                                        <option>充满烟火气的热闹美食夜市</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-stone-300 mb-1">③ 光线（决定质感灵魂）</label>
+                                    <select id="f_lig" onchange="updateDirectFormulaOutput()" class="w-full px-3 py-2.5 rounded-xl bg-stone-950/80 border border-white/20 text-white">
+                                        <option>温暖的午后黄金斜阳与丁达尔光束</option>
+                                        <option>柔和通透的窗边自然漫射光</option>
+                                        <option>温馨治愈的夜晚暖黄台灯光晕</option>
+                                        <option>清晨薄雾中的柔和晨光</option>
+                                        <option>电影感冷暖对比霓虹灯光</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-stone-300 mb-1">④ 视觉风格</label>
+                                    <select id="f_sty" onchange="updateDirectFormulaOutput()" class="w-full px-3 py-2.5 rounded-xl bg-stone-950/80 border border-white/20 text-white">
+                                        <option>电影感写实摄影，柯达胶片质感</option>
+                                        <option>日系吉卜力治愈水彩插画风</option>
+                                        <option>现代极简Kinfolk杂志风</option>
+                                        <option>3D泡泡玛特可爱盲盒公仔风</option>
+                                        <option>日系清新胶片摄影感</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-stone-300 mb-1">⑤ 构图与镜头</label>
+                                    <select id="f_com" onchange="updateDirectFormulaOutput()" class="w-full px-3 py-2.5 rounded-xl bg-stone-950/80 border border-white/20 text-white">
+                                        <option>85mm镜头中景，大光圈浅景深背景虚化</option>
+                                        <option>90度垂直桌面俯拍视角，上方留白方便加字</option>
+                                        <option>微距特写镜头，突出细腻纹理</option>
+                                        <option>远景全身背影，意境深远</option>
+                                    </select>
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs text-stone-300 mb-1">⑥ 情绪与画面比例（适配不同平台）</label>
+                                    <select id="f_mood" onchange="updateDirectFormulaOutput()" class="w-full px-3 py-2.5 rounded-xl bg-stone-950/80 border border-white/20 text-white">
+                                        <option>放松治愈的慢生活氛围，竖版 9:16（适合 Reels/短视频/手机全屏）</option>
+                                        <option>清新干净高级感，竖版 3:4（最适合小红书/IG 贴文封面）</option>
+                                        <option>温馨怀旧故事感，横版 16:9（适合电影感横屏/电脑壁纸）</option>
+                                        <option>活力诱人色彩饱满，方形 1:1（适合美食特写/头像/FB贴文）</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 右侧结果输出框 (5 cols) -->
+                        <div class="lg:col-span-5 flex flex-col justify-between bg-stone-950/85 border-2 border-amber-400/60 rounded-2xl p-5">
+                            <div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                                        <i data-lucide="terminal" class="w-4 h-4"></i>
+                                        <span id="builder-output-label">自动组装好的【万能扩写指令】：</span>
+                                    </span>
+                                    <span class="text-[11px] text-stone-400">可直接在框内修改</span>
+                                </div>
+                                <textarea id="builder-final-output" rows="7" class="w-full bg-stone-900/90 text-stone-100 text-xs sm:text-sm leading-relaxed p-3.5 rounded-xl border border-stone-700 focus:outline-none focus:border-amber-400 resize-none"></textarea>
+                            </div>
+
+                            <div class="mt-4 space-y-2.5">
+                                <button onclick="copyBuilderOutput()" class="pulse-btn w-full py-3.5 px-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-stone-950 font-black rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg transition active:scale-98">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
+                                    <span>一键复制上方指令</span>
+                                </button>
+                                <div class="flex items-center justify-center gap-2 text-[11px] text-stone-300 pt-1 flex-wrap">
+                                    <span>复制后点此直达：</span>
+                                    <a href="https://gemini.google.com" target="_blank" class="text-amber-300 underline font-bold">Gemini</a>·
+                                    <a href="https://chatgpt.com" target="_blank" class="text-amber-300 underline font-bold">ChatGPT</a>·
+                                    <a href="https://claude.ai" target="_blank" class="text-amber-300 underline font-bold">Claude</a>·
+                                    <a href="https://chat.qwen.ai" target="_blank" class="text-amber-300 underline font-bold">Qwen</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MODULE 4: 5 大实战练习场（含本地美食、封面留白、微调追问） ================= -->
+        <section id="practice" class="scroll-mt-20">
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-700 bg-brand-50 px-3 py-1 rounded-full border border-brand-200">PART 4 · 实战练习场（含模板与微调秘诀）</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-stone-900 mt-2">5 大社媒高频场景手把手练习</h2>
+                <p class="text-sm sm:text-base text-stone-600 mt-1">
+                    涵盖日常美图、本地美食（如叻沙/椰浆饭）、产品宣传、图生视频，以及最重要的<strong>「不满意如何追问微调」</strong>：
+                </p>
+            </div>
+
+            <!-- Workshop Tabs (Horizontal scrollable on mobile) -->
+            <div class="flex overflow-x-auto no-scrollbar gap-2 pb-2 mb-5">
+                <button onclick="switchWorkshop(0)" id="ws-tab-0" class="ws-tab shrink-0 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm border-2 transition-all bg-stone-900 text-white border-stone-900 shadow-sm flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-amber-400 text-stone-950 flex items-center justify-center text-xs font-black">1</span>
+                    <span>生活美图 & 封面留白</span>
+                </button>
+                <button onclick="switchWorkshop(1)" id="ws-tab-1" class="ws-tab shrink-0 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm border-2 transition-all bg-white text-stone-700 border-stone-200 hover:border-stone-300 flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-black">2</span>
+                    <span>本地美食 & 产品好物</span>
+                </button>
+                <button onclick="switchWorkshop(2)" id="ws-tab-2" class="ws-tab shrink-0 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm border-2 transition-all bg-white text-stone-700 border-stone-200 hover:border-stone-300 flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-black">3</span>
+                    <span>图生视频魔法 (让照片动)</span>
+                </button>
+                <button onclick="switchWorkshop(3)" id="ws-tab-3" class="ws-tab shrink-0 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm border-2 transition-all bg-white text-stone-700 border-stone-200 hover:border-stone-300 flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-black">4</span>
+                    <span>爆款文案+配图一条龙</span>
+                </button>
+                <button onclick="switchWorkshop(4)" id="ws-tab-4" class="ws-tab shrink-0 px-4 py-3 rounded-2xl font-bold text-xs sm:text-sm border-2 transition-all bg-white text-stone-700 border-stone-200 hover:border-stone-300 flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-xs font-black">5</span>
+                    <span>🔄 微调追问 & 固定人物</span>
+                </button>
+            </div>
+
+            <!-- Workshop Content Area (Rendered via JS) -->
+            <div id="workshop-content" class="bg-white rounded-3xl p-5 sm:p-8 border border-stone-200 shadow-card"></div>
+        </section>
+
+        <!-- ================= MODULE 5: 画面质感翻倍词典 ================= -->
+        <section id="dictionary" class="scroll-mt-20">
+            <div class="bg-cream-100 rounded-3xl p-5 sm:p-8 border border-stone-200/80">
+                <div class="max-w-2xl mb-6">
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full">PART 5 · 画面质感翻倍词典</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-stone-900 mt-2">觉得画面不够高级？加点“视觉调味料”！</h2>
+                    <p class="text-xs sm:text-sm text-stone-600 mt-1">
+                        就像做菜放调味料一样，当你觉得 AI 画出来的图太普通时，<strong>点击下方任意小标签即可复制</strong>，把它加进你的对话里，画面质感立刻飙升！
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="dictionary-grid"></div>
+            </div>
+        </section>
+
+        <!-- ================= MODULE 6: 避坑问答 FAQ & 新手通关打卡 ================= -->
+        <section id="faq" class="scroll-mt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left: Troubleshooting FAQ (7 cols) -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-700 bg-brand-50 px-3 py-1 rounded-full border border-brand-200">PART 6 · 避坑急救包</span>
+                        <h2 class="text-2xl font-black text-stone-900 mt-2">新手最常遇到的 5 个问题 & 高手技巧</h2>
+                    </div>
+
+                    <div class="space-y-3" id="faq-container"></div>
+
+                    <!-- 5 Golden Rules Summary Card (from Reference File 1) -->
+                    <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm space-y-2">
+                        <h3 class="font-black text-stone-900 text-sm sm:text-base flex items-center gap-2">
+                            <span>🎯 5 条受用一生的小技巧清单</span>
+                        </h3>
+                        <ul class="text-xs sm:text-sm text-stone-600 space-y-1.5 leading-relaxed">
+                            <li>1. <strong>一次只改一个地方</strong>，这样才知道是哪个词起了作用。</li>
+                            <li>2. <strong>多出几张再挑</strong>，第一次出图不满意很正常，不要只看第一张。</li>
+                            <li>3. <strong>看到别人好看的图</strong>，发给文字 AI 让它帮你“反推出提示词”。</li>
+                            <li>4. <strong>建立自己的“提示词备忘录”</strong>，把最满意的风格词存下来下次直接套用。</li>
+                            <li>5. <strong>感觉对了就继续，不对就追问</strong>——AI 永远不会嫌你烦 😄！</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right: Interactive Learning Checklist (5 cols) -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-brand-600/25 shadow-card sticky top-20">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-black text-lg text-stone-900 flex items-center gap-2">
+                                <i data-lucide="award" class="w-5 h-5 text-brand-600"></i>
+                                <span>新手今日通关打卡</span>
+                            </h3>
+                            <span id="checklist-progress-text" class="text-xs font-bold bg-brand-100 text-brand-800 px-2.5 py-1 rounded-full">已完成 0/6</span>
+                        </div>
+                        <p class="text-xs text-stone-500 mb-4">跟着勾选完成下面 6 件小事，你就正式掌握 AI 视觉创作啦！（打钩进度会自动保存在你的手机/电脑里）</p>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full h-2.5 bg-stone-100 rounded-full overflow-hidden mb-5">
+                            <div id="checklist-bar" class="h-full bg-gradient-to-r from-brand-500 to-amber-500 w-0 transition-all duration-500"></div>
+                        </div>
+
+                        <div class="space-y-2.5" id="checklist-items"></div>
+
+                        <div id="checklist-celebration" class="hidden mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-amber-50 to-emerald-50 border border-emerald-200 text-center">
+                            <p class="text-sm font-black text-emerald-900">🎉 太棒了！你已经全部通关，掌握了 AI 创作最核心的精髓！</p>
+                            <p class="text-xs text-emerald-700 mt-0.5">快把你做出来的第一张美图和视频分享给朋友们看看吧！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-stone-200 pt-8 pb-6 text-center text-xs sm:text-sm text-stone-500 space-y-2.5">
+            <div>
+                <a href="index.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-stone-200/70 hover:bg-brand-100 text-stone-700 hover:text-brand-800 font-bold text-xs transition">
+                    <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                    <span>返回 AI 互动学堂首页（查看全部课程）</span>
+                </a>
+            </div>
+            <p class="font-bold text-stone-700">🌟 跟着做一遍，人人都能学会用 AI 让创作更轻松有趣 🌟</p>
+            <p>可将本网页收藏在手机浏览器中随时查阅 · 点击任意提示词即可一键复制并跳转各大 AI 工具</p>
+            <p class="text-xs text-stone-400 pt-1">本教学网页由 <strong class="text-stone-600">Felix Yu</strong> 制作与无偿提供 · 开源无版权限制，欢迎自由转发分享给身边想学 AI 的朋友 ❤️</p>
+        </footer>
+
+    </main>
+
+    <!-- JavaScript Modules -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

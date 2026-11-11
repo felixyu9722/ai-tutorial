@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>全民 AI 零基础互动学堂 | 人人一看就懂的 AI 实用指南</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* 前页专属配色方案（告别深沉墨绿，采用明亮通透的暖阳/靛蓝/珊瑚色系） */
+        :root, html[data-portal-palette="warm"] {
+            --portal-bg: #FFFDF9;
+            --portal-hero-bg: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 45%, #FEF3C7 100%);
+            --portal-hero-border: #FDBA74;
+            --portal-hero-title: #431407;
+            --portal-hero-accent: #EA580C;
+            --portal-hero-desc: #7C2D12;
+            --portal-primary: #EA580C;
+            --portal-primary-hover: #C2410C;
+            --portal-badge-bg: #FFEDD5;
+            --portal-badge-text: #9A3412;
+            --portal-card-border: #F97316;
+            --portal-strip: linear-gradient(90deg, #F97316, #F59E0B, #EC4899);
+        }
+
+        html[data-portal-palette="indigo"] {
+            --portal-bg: #F8FAFC;
+            --portal-hero-bg: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 50%, #DBEAFE 100%);
+            --portal-hero-border: #A5B4FC;
+            --portal-hero-title: #1E1B4B;
+            --portal-hero-accent: #4F46E5;
+            --portal-hero-desc: #312E81;
+            --portal-primary: #4F46E5;
+            --portal-primary-hover: #4338CA;
+            --portal-badge-bg: #E0E7FF;
+            --portal-badge-text: #3730A3;
+            --portal-card-border: #6366F1;
+            --portal-strip: linear-gradient(90deg, #4F46E5, #0EA5E9, #8B5CF6);
+        }
+
+        html[data-portal-palette="rose"] {
+            --portal-bg: #FFFBFB;
+            --portal-hero-bg: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 50%, #FEF3C7 100%);
+            --portal-hero-border: #FDA4AF;
+            --portal-hero-title: #4C0519;
+            --portal-hero-accent: #E11D48;
+            --portal-hero-desc: #881337;
+            --portal-primary: #E11D48;
+            --portal-primary-hover: #BE123C;
+            --portal-badge-bg: #FFE4E6;
+            --portal-badge-text: #9F1239;
+            --portal-card-border: #F43F5E;
+            --portal-strip: linear-gradient(90deg, #E11D48, #F97316, #F59E0B);
+        }
+
+        html:not([data-theme="dark"]) body {
+            background-color: var(--portal-bg);
+        }
+
+        .portal-hero {
+            background: var(--portal-hero-bg);
+            border: 1px solid var(--portal-hero-border);
+        }
+        html[data-theme="dark"] .portal-hero {
+            background: linear-gradient(135deg, #1E1B4B 0%, #31102F 50%, #1C1917 100%);
+            border-color: #4C1D95;
+        }
+
+        .portal-hero-title { color: var(--portal-hero-title); }
+        html[data-theme="dark"] .portal-hero-title { color: #FFFFFF; }
+
+        .portal-hero-accent { color: var(--portal-hero-accent); }
+        html[data-theme="dark"] .portal-hero-accent { color: #FBBF24; }
+
+        .portal-hero-desc { color: var(--portal-hero-desc); }
+        html[data-theme="dark"] .portal-hero-desc { color: #E7E5E4; }
+
+        .portal-btn-primary {
+            background-color: var(--portal-primary);
+            color: #FFFFFF;
+        }
+        .portal-btn-primary:hover {
+            background-color: var(--portal-primary-hover);
+        }
+        .portal-card-highlight {
+            border-color: var(--portal-card-border);
+        }
+        .portal-top-strip {
+            background: var(--portal-strip);
+        }
+        .portal-badge {
+            background-color: var(--portal-badge-bg);
+            color: var(--portal-badge-text);
+        }
+        html[data-theme="dark"] .portal-badge {
+            background-color: rgba(255,255,255,0.12);
+            color: #FDE68A;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ================= 顶部导航栏（含配色切换、大字模式 & 深色切换） ================= -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200/80 transition-all">
+        <div class="max-w-5xl mx-auto px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2.5 shrink-0">
+                <div class="w-9 h-9 rounded-xl portal-btn-primary flex items-center justify-center text-white font-bold shadow-sm">
+                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="font-black text-stone-900 text-sm sm:text-lg tracking-tight block leading-none">全民 AI 零基础互动学堂</span>
+                    <span class="text-[11px] text-stone-500 font-semibold inline-block mt-0.5">说日常大白话 · 人人都能玩转 AI</span>
+                </div>
+            </a>
+
+            <!-- Right Controls: Palette Switcher, Font Size & Dark Mode -->
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                <!-- 3套明亮配色一键切换 -->
+                <div class="flex items-center bg-stone-100 p-1 rounded-xl border border-stone-200" title="点击切换首页主题颜色">
+                    <button onclick="setPalette('warm')" id="pal-warm" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-white text-orange-700 shadow-sm transition">☀️ 暖阳橙</button>
+                    <button onclick="setPalette('indigo')" id="pal-indigo" class="px-2 py-1 rounded-lg text-[11px] font-bold text-stone-600 hover:text-indigo-700 transition">🌌 科技蓝</button>
+                    <button onclick="setPalette('rose')" id="pal-rose" class="px-2 py-1 rounded-lg text-[11px] font-bold text-stone-600 hover:text-rose-700 transition">🌸 温柔粉</button>
+                </div>
+
+                <button onclick="toggleFontSize()" id="btn-font-size" title="切换大字舒适模式（适合长辈与手机阅读）" class="px-2.5 py-1.5 rounded-xl border border-stone-300 bg-white text-stone-800 text-xs font-bold transition active:scale-95">
+                    A+ 大字
+                </button>
+                <button onclick="toggleTheme()" id="btn-theme-toggle" title="切换深浅色护眼模式" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-stone-300 bg-white flex items-center justify-center text-sm transition active:scale-95">
+                    🌙
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= 主体内容区 ================= -->
+    <main class="max-w-5xl mx-auto px-4 pt-6 sm:pt-10 space-y-10 sm:space-y-14">
+
+        <!-- ================= 1. 明亮温暖欢迎横幅 (Light & Friendly Hero Banner) ================= -->
+        <section class="portal-hero relative overflow-hidden rounded-3xl p-6 sm:p-10 md:p-12 shadow-sm text-center sm:text-left transition-all">
+            <div class="relative z-10 max-w-3xl">
+                <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-stone-200/80 portal-hero-accent text-xs sm:text-sm font-bold mb-4 shadow-sm">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>零门槛 · 手机随时学 · 点开下方课程跟着做就会</span>
+                </div>
+
+                <h1 class="portal-hero-title text-2xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4">
+                    欢迎来到 <span class="portal-hero-accent underline decoration-wavy underline-offset-8">AI 互动教学中心</span><br>
+                    今天你想学会哪一项 AI 技能？
+                </h1>
+
+                <p class="portal-hero-desc text-sm sm:text-base md:text-lg leading-relaxed mb-6 opacity-90">
+                    这里没有枯燥难懂的电脑术语。每一门课都为你准备好了<strong>「傻瓜式三步流程 + 互动提示词组装器 + 一键复制模板」</strong>。直接点击下方课程标题，立刻开启你的 AI 创作之旅！
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                    <a href="image-video.html" class="portal-btn-primary px-5 py-3 rounded-2xl font-black text-sm sm:text-base flex items-center gap-2 shadow-md transition active:scale-95">
+                        <span>🚀 立即进入第 01 课：AI 生图与短视频</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#quick-tools" class="px-4 py-3 rounded-2xl bg-white/90 hover:bg-white border border-stone-300 text-stone-800 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm transition">
+                        <i data-lucide="compass" class="w-4 h-4 portal-hero-accent"></i>
+                        <span>常用 6 大 AI 工具直达</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 2. 核心区域：AI 互动课程目录 ================= -->
+        <section id="courses" class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider portal-badge px-3 py-1 rounded-full">📚 互动课程目录</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-stone-900 mt-2">点击下方课程句子，直接进入学习：</h2>
+                </div>
+            </div>
+
+            <!-- 🌟 主打第 01 课（置顶醒目大卡片，句子与按钮均可点击跳转 image-video.html） -->
+            <div class="group relative rounded-3xl bg-white border-2 portal-card-highlight shadow-md hover:shadow-xl transition-all overflow-hidden">
+                <!-- 顶部渐变装饰条 -->
+                <div class="h-2 w-full portal-top-strip"></div>
+
+                <div class="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- 左侧课程详情 (8 cols) -->
+                    <div class="lg:col-span-8 space-y-3.5">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-3 py-1 rounded-full text-xs font-black portal-btn-primary flex items-center gap-1">
+                                <i data-lucide="flame" class="w-3.5 h-3.5"></i>
+                                <span>第 01 课 · 已上线（点击可进入）</span>
+                            </span>
+                            <span id="course-1-progress" class="px-2.5 py-1 rounded-full text-xs font-bold badge-emerald">🎯 学习打卡：0/6</span>
+                        </div>
+
+                        <!-- 您指定的句子作为醒目可点击主标题链接 -->
+                        <h3 class="text-xl sm:text-2xl md:text-3xl font-black leading-snug">
+                            <a href="image-video.html" class="text-stone-900 group-hover:opacity-85 underline decoration-amber-400 decoration-wavy underline-offset-8 transition block">
+                                用 AI 做图片和短视频，其实只要会说“日常大白话”！
+                            </a>
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                            不用懂英文、不用背复杂参数！手把手教你用一句日常华语，让 AI 自动扩写出 <strong>4 种视觉风格（电影写实 / 治愈水彩 / 极简留白封面 / 3D盲盒）</strong>，内含<strong>「双模式提示词组装器」</strong>与<strong>「5 大实战练习」</strong>。
+                        </p>
+                    </div>
+
+                    <!-- 右侧大按钮行动区 (4 cols) -->
+                    <div class="lg:col-span-4 flex flex-col justify-center items-stretch sm:items-end border-t lg:border-t-0 lg:border-l border-stone-200/80 pt-4 lg:pt-0 lg:pl-6">
+                        <a href="image-video.html" class="portal-btn-primary w-full py-4 px-6 rounded-2xl font-black text-center text-sm sm:text-base shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition active:scale-95">
+                            <span>👉 点击进入互动教学</span>
+                            <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
+                        </a>
+                        <p class="text-[11px] text-stone-500 text-center w-full mt-2">
+                            ⏱️ 手机随时可看 · 点击提示词即可复制
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⏳ 第 02 课：严格按您要求，仅用极简灰色文字显示，不展示冗长细节卡片 -->
+            <div class="rounded-2xl border border-dashed border-stone-300 bg-stone-100/70 px-5 py-4 flex items-center justify-between text-stone-400 select-none">
+                <div class="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-stone-400">
+                    <i data-lucide="clock" class="w-4 h-4 text-stone-400 shrink-0"></i>
+                    <span>第 02 课 · 筹备上线中</span>
+                </div>
+                <span class="text-xs text-stone-400">敬请期待</span>
+            </div>
+        </section>
+
+        <!-- ================= 3. 常用 AI 工具一键直达导航台 ================= -->
+        <section id="quick-tools" class="scroll-mt-20 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider portal-badge px-3 py-1 rounded-full">⚡ 常用 AI 工具传送门</span>
+                    <h2 class="text-lg sm:text-xl font-black text-stone-900 mt-1.5">已经学会怎么写了？直接打开下面任意 AI 工具开练：</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <a href="https://gemini.google.com" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-white border border-stone-200 hover:border-orange-400 shadow-sm flex flex-col justify-between gap-1.5 transition active:scale-95">
+                    <span class="text-[11px] font-bold text-emerald-700">🧠 全能首选</span>
+                    <span class="font-black text-stone-900 text-sm">Google Gemini ↗</span>
+                    <span class="text-[11px] text-stone-500">免费对话+直接画图</span>
+                </a>
+                <a href="https://chatgpt.com" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-white border border-stone-200 hover:border-orange-400 shadow-sm flex flex-col justify-between gap-1.5 transition active:scale-95">
+                    <span class="text-[11px] font-bold text-amber-700">💡 创意军师</span>
+                    <span class="font-black text-stone-900 text-sm">ChatGPT ↗</span>
+                    <span class="text-[11px] text-stone-500">想点子+写提示词</span>
+                </a>
+                <a href="https://claude.ai" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-white border border-stone-200 hover:border-orange-400 shadow-sm flex flex-col justify-between gap-1.5 transition active:scale-95">
+                    <span class="text-[11px] font-bold text-sky-700">✍️ 温暖文笔</span>
+                    <span class="font-black text-stone-900 text-sm">Claude AI ↗</span>
+                    <span class="text-[11px] text-stone-500">最像真人的好文笔</span>
+                </a>
+                <a href="https://chat.qwen.ai" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-white border border-stone-200 hover:border-orange-400 shadow-sm flex flex-col justify-between gap-1.5 transition active:scale-95">
+                    <span class="text-[11px] font-bold text-purple-700">🇨🇳 懂中文语境</span>
+                    <span class="font-black text-stone-900 text-sm">Qwen 通义千问 ↗</span>
+                    <span class="text-[11px] text-stone-500">免费好用的中文AI</span>
+                </a>
+                <a href="https://jimeng.jianying.com" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-white border border-stone-200 hover:border-orange-400 shadow-sm flex flex-col justify-between gap-1.5 transition active:scale-95">
+                    <span class="text-[11px] font-bold text-rose-700">🎨 中文画师</span>
+                    <span class="font-black text-stone-900 text-sm">即梦 AI ↗</span>
+                    <span class="text-[11px] text-stone-500">小红书风生图/视频</span>
+                </a>
+                <a href="https://klingai.kuaishou.com" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-white border border-stone-200 hover:border-orange-400 shadow-sm flex flex-col justify-between gap-1.5 transition active:scale-95">
+                    <span class="text-[11px] font-bold text-teal-700">🎬 动态导演</span>
+                    <span class="font-black text-stone-900 text-sm">可灵 AI ↗</span>
+                    <span class="text-[11px] text-stone-500">让静态照片变视频</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ================= Footer ================= -->
+        <footer class="border-t border-stone-200 pt-8 pb-6 text-center text-xs sm:text-sm text-stone-500 space-y-2">
+            <p class="font-bold text-stone-700">🌟 跟着做一遍，人人都能学会用 AI 让创作更轻松有趣 🌟</p>
+            <p>可将本网页收藏在手机浏览器中随时查阅 · 点击上方课程即可进入互动教学</p>
+            <p class="text-xs text-stone-400 pt-1">本教学网页由 <strong class="text-stone-600">Felix Yu</strong> 制作与无偿提供 · 开源无版权限制，欢迎自由转发分享给身边想学 AI 的朋友 ❤️</p>
+        </footer>
+
+    </main>
+
+    <!-- Homepage Interaction Script -->
+    <script>
+        // 切换首页 3 套明亮配色方案（暖阳橙 / 科技蓝 / 温柔粉）
+        function setPalette(pal) {
+            document.documentElement.setAttribute('data-portal-palette', pal);
+            try { localStorage.setItem('ai_portal_palette', pal); } catch (e) {}
+
+            const map = {
+                warm: { id: 'pal-warm', activeClass: 'px-2 py-1 rounded-lg text-[11px] font-bold bg-white text-orange-700 shadow-sm transition' },
+                indigo: { id: 'pal-indigo', activeClass: 'px-2 py-1 rounded-lg text-[11px] font-bold bg-white text-indigo-700 shadow-sm transition' },
+                rose: { id: 'pal-rose', activeClass: 'px-2 py-1 rounded-lg text-[11px] font-bold bg-white text-rose-700 shadow-sm transition' }
+            };
+            Object.keys(map).forEach(k => {
+                const btn = document.getElementById(map[k].id);
+                if (!btn) return;
+                if (k === pal) {
+                    btn.className = map[k].activeClass;
+                } else {
+                    btn.className = 'px-2 py-1 rounded-lg text-[11px] font-bold text-stone-600 hover:text-stone-900 transition';
+                }
+            });
+        }
+
+        // 读取第 1 课在本地保存的打卡进度并展示在首页卡片上
+        function loadCourse1Progress() {
+            try {
+                const saved = localStorage.getItem('ai_tutorial_checklist_v2');
+                if (saved) {
+                    const states = JSON.parse(saved);
+                    const done = states.filter(Boolean).length;
+                    const badge = document.getElementById('course-1-progress');
+                    if (badge) {
+                        badge.textContent = done === 6 ? `🎉 已通关 (6/6)` : `🎯 学习进度：${done}/6`;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        // 大字模式与深色模式切换（与内页共享 localStorage 设置）
+        function toggleFontSize() {
+            const html = document.documentElement;
+            const btn = document.getElementById('btn-font-size');
+            const isLarge = html.getAttribute('data-font') === 'large';
+            if (isLarge) {
+                html.removeAttribute('data-font');
+                if (btn) btn.textContent = 'A+ 大字';
+                try { localStorage.setItem('ai_tutorial_font', 'normal'); } catch(e) {}
+            } else {
+                html.setAttribute('data-font', 'large');
+                if (btn) btn.textContent = 'A- 标准';
+                try { localStorage.setItem('ai_tutorial_font', 'large'); } catch(e) {}
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('btn-theme-toggle');
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                html.setAttribute('data-theme', 'light');
+                if (btn) btn.textContent = '🌙';
+                try { localStorage.setItem('ai_tutorial_theme', 'light'); } catch(e) {}
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                if (btn) btn.textContent = '☀️';
+                try { localStorage.setItem('ai_tutorial_theme', 'dark'); } catch(e) {}
+            }
+        }
+
+        function loadPreferences() {
+            try {
+                const savedPal = localStorage.getItem('ai_portal_palette') || 'warm';
+                setPalette(savedPal);
+
+                if (localStorage.getItem('ai_tutorial_font') === 'large') {
+                    document.documentElement.setAttribute('data-font', 'large');
+                    const btn = document.getElementById('btn-font-size');
+                    if (btn) btn.textContent = 'A- 标准';
+                }
+                if (localStorage.getItem('ai_tutorial_theme') === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    const btn = document.getElementById('btn-theme-toggle');
+                    if (btn) btn.textContent = '☀️';
+                }
+            } catch (e) {}
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadPreferences();
+            loadCourse1Progress();
+            if (window.lucide) window.lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
